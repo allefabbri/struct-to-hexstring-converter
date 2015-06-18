@@ -16,6 +16,8 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>. *
 ************************************************************************/
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -29,12 +31,14 @@ typedef struct {
 } Mystruct;
 
 int main(){
+
 //////////////////////////////////////////// STRUCT TO HEX STRING /////////////////////////////////////////////////////	
+
 // Initializing the struct
 	Mystruct mystruct;
 	mystruct.n  = -12000;
 	mystruct.un = 51000;
-	mystruct.x  = 9.876e-5;
+	mystruct.x  = (float) 9.876e-5;
 	cout << "Mystruct contains " << sizeof(mystruct) << " bytes : n = " << mystruct.n << ", un = " << mystruct.un << ", x = " << mystruct.x << endl;
 
 // Serializing the struct in a char*
@@ -54,15 +58,22 @@ int main(){
   cout << "Struct to string : " << buffer_to_string << endl; // now mystruct is saved as a string in hex format
 
 // A little clean up
-  delete[] buffer, buffer_to_char;
+  delete[] buffer;
+  delete[] buffer_to_char;
   buffer = buffer_to_char = NULL;
 
+
 //////////////////////////////////////////// HEX STRING TO STRUCT /////////////////////////////////////////////////////
+
 // Converting the human readable hex string to char*
-	unsigned char * ubuffer;
-	ubuffer = new unsigned char[buffer_to_string.size()/2];
-	for( size_t i=0; i<buffer_to_string.size()/2; i++){
-    sscanf(&(buffer_to_string.c_str()[i*2]), "%02x", &ubuffer[i]);
+  unsigned char * ubuffer;
+  unsigned int * uibuffer;
+  ubuffer = new unsigned char[buffer_to_string.size() / 2];
+  uibuffer = new unsigned int[buffer_to_string.size() / 2];
+
+  for (size_t i = 0; i<buffer_to_string.size() / 2; i++){
+    sscanf(&(buffer_to_string.c_str()[i * 2]), "%02x", &uibuffer[i]);
+    ubuffer[i] = (unsigned char) uibuffer[i];
   }
 
 // Reconstruction of the struct
@@ -71,8 +82,10 @@ int main(){
 	cout << "Clone contains " << sizeof(mystruct_cloned) << " bytes : n = " << mystruct_cloned.n << ", un = " << mystruct_cloned.un << ", x = " << mystruct_cloned.x << endl;
 
 // Another little clean up
-	delete[] ubuffer;
-	ubuffer = nullptr;
- 
+  delete[] ubuffer;
+  delete[] uibuffer;
+  ubuffer = nullptr;
+  uibuffer = nullptr;
+
 	return 0;
 }
