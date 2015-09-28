@@ -81,6 +81,12 @@ int main(){
 	memcpy( &mystruct_cloned, ubuffer, sizeof(mystruct_cloned) );
 	cout << "Clone contains " << sizeof(mystruct_cloned) << " bytes : n = " << mystruct_cloned.n << ", un = " << mystruct_cloned.un << ", x = " << mystruct_cloned.x << endl;
 
+// Or using a pointer
+  Mystruct * pointer_to_struct;
+  pointer_to_struct = (Mystruct *) ubuffer;
+  cout << "Pointer contains " << sizeof(*pointer_to_struct) << " bytes : n = " << pointer_to_struct->n << ", un = " << pointer_to_struct->un << ", x = " << pointer_to_struct->x << endl;
+
+
 // Another little clean up
   delete[] ubuffer;
   delete[] uibuffer;
