@@ -25,32 +25,32 @@
 using namespace std;
 
 typedef struct {
-	int n;
-	unsigned int un;
-	float x;
+  int n;
+  unsigned int un;
+  float x;
 } Mystruct;
 
 int main(){
 
-//////////////////////////////////////////// STRUCT TO HEX STRING /////////////////////////////////////////////////////	
+//////////////////////////////////////////// STRUCT TO HEX STRING ///////////////////////////////////////////////////// 
 
 // Initializing the struct
-	Mystruct mystruct;
-	mystruct.n  = -12000;
-	mystruct.un = 51000;
-	mystruct.x  = (float) 9.876e-5;
-	cout << "Mystruct contains " << sizeof(mystruct) << " bytes : n = " << mystruct.n << ", un = " << mystruct.un << ", x = " << mystruct.x << endl;
+  Mystruct mystruct;
+  mystruct.n  = -12000;
+  mystruct.un = 51000;
+  mystruct.x  = (float) 9.876e-5;
+  cout << "Mystruct contains " << sizeof(mystruct) << " bytes : n = " << mystruct.n << ", un = " << mystruct.un << ", x = " << mystruct.x << endl;
 
 // Serializing the struct in a char*
-	char * buffer;
-	buffer = new char[sizeof(mystruct)];
-	memcpy( buffer, &mystruct, sizeof(mystruct) );
-//	for( size_t i=0; i< sizeof(mystruct); i++) printf("%02x ", (unsigned char) buffer[i]); printf("\n");
+  char * buffer;
+  buffer = new char[sizeof(mystruct)];
+  memcpy( buffer, &mystruct, sizeof(mystruct) );
+//  for( size_t i=0; i< sizeof(mystruct); i++) printf("%02x ", (unsigned char) buffer[i]); printf("\n");
 
 // Converting the char* to human readable form and then to std::string
-	char * buffer_to_char;
-	buffer_to_char = new char[2*sizeof(mystruct)+1];
-	for( size_t i=0; i<sizeof(mystruct); i++){
+  char * buffer_to_char;
+  buffer_to_char = new char[2*sizeof(mystruct)+1];
+  for( size_t i=0; i<sizeof(mystruct); i++){
     sprintf(&buffer_to_char[i * 2], "%02x", (unsigned char) buffer[i]);
   }
   buffer_to_char[2*sizeof(mystruct)] = '\0';
@@ -77,9 +77,9 @@ int main(){
   }
 
 // Reconstruction of the struct
-	Mystruct mystruct_cloned;
-	memcpy( &mystruct_cloned, ubuffer, sizeof(mystruct_cloned) );
-	cout << "Clone contains " << sizeof(mystruct_cloned) << " bytes : n = " << mystruct_cloned.n << ", un = " << mystruct_cloned.un << ", x = " << mystruct_cloned.x << endl;
+  Mystruct mystruct_cloned;
+  memcpy( &mystruct_cloned, ubuffer, sizeof(mystruct_cloned) );
+  cout << "Clone contains " << sizeof(mystruct_cloned) << " bytes : n = " << mystruct_cloned.n << ", un = " << mystruct_cloned.un << ", x = " << mystruct_cloned.x << endl;
 
 // Or using a pointer
   Mystruct * pointer_to_struct;
@@ -93,5 +93,5 @@ int main(){
   ubuffer = nullptr;
   uibuffer = nullptr;
 
-	return 0;
+  return 0;
 }
